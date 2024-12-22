@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:kwave/screens/home_screen.dart';
+import 'package:kwave/screens/onboarding_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Future.delayed(const Duration(seconds: 5), () {
-    //   Navigator.push(
-    //       context, MaterialPageRoute(builder: (context) => const HomeScreen()));
-    // });
+    Future.delayed(const Duration(seconds: 5), () {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const OnboardingScreen()));
+    });
 
     return Scaffold(
       backgroundColor: Colors.white,
