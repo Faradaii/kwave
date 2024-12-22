@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kwave/screens/home_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -8,7 +7,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Future.delayed(const Duration(seconds: 5), () {
     //   Navigator.push(
-    //       context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+    //       context, MaterialPageRoute(builder: (context) => const OnboardingScreen()));
     // });
 
     return Scaffold(
@@ -22,8 +21,8 @@ class SplashScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               SizedBox(
-                height: 150,
-                width: 150,
+                height: 200,
+                width: 200,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: Image.asset(
