@@ -34,7 +34,7 @@ String movies = '''[
     },
     {
       "id": "2",
-      "title": "Twenty-Five Twenty-One",
+      "title": "2521",
       "originalTitle": "스물다섯 스물하나",
       "genre": ["Romance", "Coming-of-age", "Drama"],
       "description": "Set during the 1997 Asian financial crisis, it tells the story of youth who find new direction and growth after having their dreams taken away.",
