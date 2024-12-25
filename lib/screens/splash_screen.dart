@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kwave/screens/home_screen.dart';
 import 'package:kwave/screens/onboarding_screen.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -9,11 +8,11 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 5), () {
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const HomeScreen(name: "halo",)));
+          MaterialPageRoute(builder: (context) => const OnboardingScreen()));
     });
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       body: Stack(
         alignment: Alignment.bottomCenter,
         fit: StackFit.expand,
@@ -22,9 +21,13 @@ class SplashScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              SizedBox(
+              Container(
                 height: 200,
                 width: 200,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: Image.asset(
@@ -33,11 +36,11 @@ class SplashScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Text('KWave',
+              const Text('KWave',
                   style: TextStyle(
                       fontSize: 40,
                       fontWeight: FontWeight.w700,
-                      color: Colors.grey.shade900)),
+                      color: Colors.white)),
             ],
           ),
           const Column(
@@ -45,7 +48,10 @@ class SplashScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text('from',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white)),
               Text('Faradaii',
                   style: TextStyle(
                     fontSize: 20,

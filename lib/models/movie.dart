@@ -58,14 +58,20 @@ class Movie {
 }
 
 class Cast {
+  String photoUrl;
   String actorName;
   String characterName;
   String role;
 
-  Cast({required this.actorName, required this.characterName, required this.role});
+  Cast(
+      {required this.photoUrl,
+      required this.actorName,
+      required this.characterName,
+      required this.role});
 
   factory Cast.fromJson(Map<String, dynamic> json) {
     return Cast(
+      photoUrl: json['photoUrl'],
       actorName: json['actorName'],
       characterName: json['characterName'],
       role: json['role'],
@@ -74,14 +80,16 @@ class Cast {
 }
 
 class OST {
+  String albumPhotoUrl;
   String title;
   String artist;
   String url;
 
-  OST({required this.title, required this.artist, required this.url});
+  OST({required this.albumPhotoUrl, required this.title, required this.artist, required this.url});
 
   factory OST.fromJson(Map<String, dynamic> json) {
     return OST(
+      albumPhotoUrl: json['albumPhotoUrl'],
       title: json['title'],
       artist: json['artist'],
       url: json['url'],
