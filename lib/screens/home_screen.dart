@@ -44,21 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
     }).toList();
 
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          elevation: 0,
-          centerTitle: true,
-          title: SizedBox(
-            height: 60,
-            width: 60,
-            child: ClipRRect(
-              child: Image.asset(
-                "assets/kwave.png",
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ),
+        backgroundColor: Colors.black,
+        appBar: homeAppbar(),
         body: SingleChildScrollView(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -68,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 'Recomendation for you, ${widget.name}',
                 style: TextStyle(
                     fontWeight: FontWeight.w900,
+                    color: Colors.white,
                     fontSize:
                         Theme.of(context).textTheme.headlineSmall?.fontSize),
               ),
@@ -78,6 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 "Best Movies",
                 style: TextStyle(
                     fontWeight: FontWeight.w900,
+                    color: Colors.white,
                     fontSize: Theme.of(context).textTheme.titleLarge?.fontSize),
               ),
             ),
@@ -95,6 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 "All Movies",
                 style: TextStyle(
                     fontWeight: FontWeight.w900,
+                    color: Colors.white,
                     fontSize: Theme.of(context).textTheme.titleLarge?.fontSize),
               ),
             ),
@@ -103,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(12.0),
               child: GridView.builder(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: filteredMovies.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount:
@@ -119,6 +109,29 @@ class _HomeScreenState extends State<HomeScreen> {
         ));
   }
 
+  AppBar homeAppbar() {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      elevation: 0,
+      centerTitle: true,
+      backgroundColor: Colors.black,
+      title: Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+        ),
+        height: 40,
+        width: 40,
+        child: ClipRRect(
+          child: Image.asset(
+            "assets/kwave.png",
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+
   SingleChildScrollView filterGenreMovies(List<String> genreList) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -127,7 +140,13 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: FilterChip(
-              label: Text("All"),
+              surfaceTintColor: Colors.black,
+              checkmarkColor: Colors.white,
+              selectedColor: Colors.black,
+              backgroundColor: Colors.black,
+              selectedShadowColor: Colors.black,
+              side: const BorderSide(color: Colors.white),
+              label: const Text("All", style: TextStyle(color: Colors.white)),
               selected: selectedGenre.isEmpty,
               onSelected: (bool value) {
                 setState(() {
@@ -144,7 +163,14 @@ class _HomeScreenState extends State<HomeScreen> {
               (index) => Padding(
                 padding: const EdgeInsets.only(left: 4.0),
                 child: FilterChip(
-                  label: Text(genreList[index]),
+                  surfaceTintColor: Colors.black,
+                  checkmarkColor: Colors.white,
+                  selectedColor: Colors.black,
+                  backgroundColor: Colors.black,
+                  selectedShadowColor: Colors.black,
+                  side: const BorderSide(color: Colors.white),
+                  label: Text(genreList[index],
+                      style: const TextStyle(color: Colors.white)),
                   selected: selectedGenre.contains(genreList[index]),
                   onSelected: (bool value) {
                     setState(() {
@@ -159,15 +185,16 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
         ],
       ),
     );
   }
 
-  Widget movieCard(Movie movie, {bool isShowGenre = true}) {
+  Widget movieCard(Movie movie,
+      {bool isShowGenre = true, bool isShowRating = true}) {
     return Padding(
-      padding: EdgeInsets.all(6),
+      padding: const EdgeInsets.all(6),
       child: InkWell(
         onTap: () {
           Navigator.push(
@@ -183,8 +210,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   MediaQuery.of(context).size.width > 600
                       ? movie.backdrop
                       : movie.poster,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return const Center(child: CircularProgressIndicator());
+                  },
                   errorBuilder: (context, error, stackTrace) {
-                    return Center(
+                    return const Center(
                       child: Icon(Icons.error, color: Colors.red),
                     );
                   },
@@ -192,15 +225,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 fit: BoxFit.cover),
             borderRadius: BorderRadius.circular(20),
           ),
-          child: movieContainer(movie, isShowGenre),
+          child: movieContainer(movie, isShowGenre, isShowRating),
         ),
       ),
     );
   }
 
-  Container movieContainer(Movie movie, bool isShowGenre) {
+  Container movieContainer(Movie movie, bool isShowGenre, bool isShowRating) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           gradient: LinearGradient(
@@ -218,7 +251,9 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (isShowGenre) movieGenre(movie),
-          Expanded(child: movieDescription(movie, isTitleLarge: isShowGenre)),
+          Expanded(
+              child: movieDescription(movie,
+                  isTitleLarge: isShowGenre, isShowRating: isShowRating)),
         ],
       ),
     );
@@ -245,12 +280,23 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Padding movieDescription(Movie movie, {bool isTitleLarge = true}) {
+  Padding movieDescription(Movie movie,
+      {bool isShowRating = true, bool isTitleLarge = true}) {
     return Padding(
       padding: const EdgeInsets.all(12),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          if (isShowRating)
+            Text(
+              "⭐ ${movie.averageRating}/10",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: Theme.of(context).textTheme.titleSmall?.fontSize),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           Text(
             movie.originalTitle,
             style: TextStyle(
